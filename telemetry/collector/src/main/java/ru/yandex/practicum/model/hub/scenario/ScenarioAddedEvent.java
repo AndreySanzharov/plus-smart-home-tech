@@ -1,5 +1,6 @@
 package ru.yandex.practicum.model.hub.scenario;
 
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import java.util.List;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ScenarioAddedEvent extends HubEvent {
+    @Size(min = 3, max = Integer.MAX_VALUE)
     String name;
     List<ScenarioCondition> conditions;
     List<DeviceAction> actions;

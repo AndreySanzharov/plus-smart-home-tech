@@ -1,32 +1,60 @@
 package ru.yandex.practicum.mapper;
 
+import com.google.protobuf.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.SubclassMapping;
+import ru.yandex.practicum.grpc.telemetry.event.*;
 import ru.yandex.practicum.kafka.telemetry.event.*;
-import ru.yandex.practicum.model.sensor.*;
+
+import java.time.Instant;
+
 
 @Mapper(componentModel = "spring")
 public interface SensorEventMapper {
-    @Mapping(target = "event", source = ".", qualifiedByName = "mapClass")
-    SensorEventAvro mapToAvro(SensorEvent event);
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "hubId", source = "hubId")
+    @Mapping(target = "timestamp", source = "timestamp")
+    @Mapping(target = "event", source = ".", qualifiedByName = "mapPayload")
+    SensorEventAvro mapToAvro(SensorEventProto proto);
 
-    @Named("mapClass")
-    @SubclassMapping(source = ClimateSensorEvent.class, target = ClimateSensorEventAvro.class)
-    @SubclassMapping(source = LightSensorEvent.class, target = LightSensorEventAvro.class)
-    @SubclassMapping(source = MotionSensorEvent.class, target = MotionSensorEventAvro.class)
-    @SubclassMapping(source = SwitchSensorEvent.class, target = SwitchSensorEventAvro.class)
-    @SubclassMapping(source = TemperatureSensorEvent.class, target = TemperatureSensorEventAvro.class)
-    Object mapClass(SensorEvent event);
+    @Named("mapPayload")
+    default Object mapPayload(SensorEventProto proto) {
+        return switch (proto.getPayloadCase()) {
+            case MOTION_SENSOR_EVENT -> map(proto.getMotionSensorEvent());
+            case TEMPERATURE_SENSOR_EVENT -> map(proto.getTemperatureSensorEvent());
+            case LIGHT_SENSOR_EVENT -> map(proto.getLightSensorEvent());
+            case CLIMATE_SENSOR_EVENT -> map(proto.getClimateSensorEvent());
+            case SWITCH_SENSOR_EVENT -> map(proto.getSwitchSensorEvent());
+            case PAYLOAD_NOT_SET -> throw new IllegalArgumentException("Payload not set in SensorEventProto");
+        };
+    }
 
-    ClimateSensorEventAvro mapToAvro(ClimateSensorEvent event);
+    @Mapping(target = "linkQuality", source = "linkQuality")
+    @Mapping(target = "motion", source = "motion")
+    @Mapping(target = "voltage", source = "voltage")
+    MotionSensorEventAvro map(MotionSensorProto proto);
 
-    LightSensorEventAvro mapToAvro(LightSensorEvent event);
+    @Mapping(target = "temperatureC", source = "temperatureC")
+    @Mapping(target = "temperatureF", source = "temperatureF")
+    TemperatureSensorEventAvro map(TemperatureSensorProto proto);
 
-    MotionSensorEventAvro mapToAvro(MotionSensorEvent event);
+    @Mapping(target = "linkQuality", source = "linkQuality")
+    @Mapping(target = "luminosity", source = "luminosity")
+    LightSensorEventAvro map(LightSensorProto proto);
 
-    SwitchSensorEventAvro mapToAvro(SwitchSensorEvent event);
+    @Mapping(target = "temperatureC", source = "temperatureC")
+    @Mapping(target = "humidity", source = "humidity")
+    @Mapping(target = "co2Level", source = "co2Level")
+    ClimateSensorEventAvro map(ClimateSensorProto proto);
 
-    TemperatureSensorEventAvro mapToAvro(TemperatureSensorEvent event);
+    @Mapping(target = "state", source = "state")
+    SwitchSensorEventAvro map(SwitchSensorProto proto);
+
+    default Instant mapToInstant(Timestamp timestamp) {
+        if (timestamp == null) {
+            return null;
+        }
+        return Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+    }
 }

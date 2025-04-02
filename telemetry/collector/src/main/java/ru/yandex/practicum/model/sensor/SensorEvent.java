@@ -14,8 +14,8 @@ import ru.yandex.practicum.enums.SensorEventType;
 import java.time.Instant;
 
 @JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        use = JsonTypeInfo.Id.NAME, //Указывает, что тип объекта будет определяться по его имени (значению поля type в JSON).
+        include = JsonTypeInfo.As.EXISTING_PROPERTY, //Указывает, что информация о типе уже существует в JSON как свойство (поле). В данном случае это поле type.
         property = "type"
 )
 @JsonSubTypes({

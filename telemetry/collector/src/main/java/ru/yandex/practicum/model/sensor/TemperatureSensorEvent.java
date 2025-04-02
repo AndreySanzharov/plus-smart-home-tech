@@ -11,7 +11,7 @@ import ru.yandex.practicum.enums.SensorEventType;
 @Setter
 @ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TemperatureSensorEvent extends SensorEvent {
+public class TemperatureSensorEvent extends SensorEvent { //Событие датчика температуры, содержащее информацию о температуре в градусах Цельсия и Фаренгейта.
     Integer temperatureC;
     Integer temperatureF;
 
