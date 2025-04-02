@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class AvroSerializer implements Serializer<SpecificRecordBase> {
     private final EncoderFactory encoderFactory = EncoderFactory.get();
+    // Кэш для DatumWriter, чтобы избежать повторного создания для одной и той же схемы.
     private final Map<Schema, DatumWriter<SpecificRecordBase>> writers = new HashMap<>();
 
     @Override
@@ -28,7 +29,7 @@ public class AvroSerializer implements Serializer<SpecificRecordBase> {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             BinaryEncoder encoder = encoderFactory.binaryEncoder(out, null);
             Schema schema = data.getSchema();
-
+            // Используем кэшированный DatumWriter или создаем новый, если его нет в кэше.
             DatumWriter<SpecificRecordBase> writer = writers.computeIfAbsent(
                     schema,
                     s -> {

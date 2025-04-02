@@ -1,34 +1,82 @@
 package ru.yandex.practicum.mapper;
 
+import com.google.protobuf.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.SubclassMapping;
+import ru.yandex.practicum.grpc.telemetry.event.*;
 import ru.yandex.practicum.kafka.telemetry.event.*;
-import ru.yandex.practicum.model.hub.HubEvent;
-import ru.yandex.practicum.model.hub.device.DeviceAddedEvent;
-import ru.yandex.practicum.model.hub.device.DeviceRemovedEvent;
-import ru.yandex.practicum.model.hub.scenario.ScenarioAddedEvent;
-import ru.yandex.practicum.model.hub.scenario.ScenarioRemovedEvent;
+
+import java.time.Instant;
+
 
 @Mapper(componentModel = "spring")
 public interface HubEventMapper {
+    @Mapping(target = "hubId", source = "hubId")
+    @Mapping(target = "timestamp", source = "timestamp")
+    @Mapping(target = "event", source = ".", qualifiedByName = "mapPayload")
+    HubEventAvro mapToAvro(HubEventProto proto);
 
-    @Mapping(target = "event", source = ".", qualifiedByName = "mapClass")
-    HubEventAvro mapToAvro(HubEvent event);
+    @Named("mapPayload")
+    default Object mapPayload(HubEventProto proto) {
+        return switch (proto.getPayloadCase()) {
+            case DEVICE_ADDED -> map(proto.getDeviceAdded());
+            case DEVICE_REMOVED -> map(proto.getDeviceRemoved());
+            case SCENARIO_ADDED -> map(proto.getScenarioAdded());
+            case SCENARIO_REMOVED -> map(proto.getScenarioRemoved());
+            case PAYLOAD_NOT_SET -> throw new IllegalArgumentException("Payload not set in HubEventProto");
+        };
+    }
 
-    @Named("mapClass")
-    @SubclassMapping(source = DeviceAddedEvent.class, target = DeviceAddedEventAvro.class)
-    @SubclassMapping(source = DeviceRemovedEvent.class, target = DeviceRemovedEventAvro.class)
-    @SubclassMapping(source = ScenarioAddedEvent.class, target = ScenarioAddedEventAvro.class)
-    @SubclassMapping(source = ScenarioRemovedEvent.class, target = ScenarioRemovedEventAvro.class)
-    Object mapClass(HubEvent event);
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "deviceType", source = "type")
+    DeviceAddedEventAvro map(DeviceAddedEventProto proto);
 
-    DeviceAddedEventAvro mapToAvro(DeviceAddedEvent event);
 
-    DeviceRemovedEventAvro mapToAvro(DeviceRemovedEvent event);
+    @Mapping(target = "id", source = "id")
+    DeviceRemovedEventAvro map(DeviceRemovedEventProto proto);
 
-    ScenarioAddedEventAvro mapToAvro(ScenarioAddedEvent event);
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "conditions", source = "conditionList")
+    @Mapping(target = "actions", source = "actionList")
+    ScenarioAddedEventAvro map(ScenarioAddedEventProto proto);
 
-    ScenarioRemovedEventAvro mapToAvro(ScenarioRemovedEvent event);
+    @Mapping(target = "name", source = "name")
+    ScenarioRemovedEventAvro map(ScenarioRemovedEventProto proto);
+
+    @Mapping(target = "sensorId", source = "sensorId")
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "operation", source = "operation")
+    @Mapping(target = "value", expression = "java(proto.hasIntValue() ? proto.getIntValue() : " +
+            "proto.hasBoolValue() ? proto.getBoolValue() : null)")
+    ScenarioConditionAvro map(ScenarioConditionProto proto);
+
+
+    @Mapping(target = "sensorId", source = "sensorId")
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "value", expression = "java(proto.hasValue() ? proto.getValue() : null)")
+    DeviceActionAvro map(DeviceActionProto proto);
+
+    default DeviceTypeAvro map(DeviceTypeProto proto) {
+        return DeviceTypeAvro.valueOf(proto.name());
+    }
+
+    default ConditionTypeAvro map(ConditionTypeProto proto) {
+        return ConditionTypeAvro.valueOf(proto.name());
+    }
+
+    default ConditionOperationTypeAvro map(ConditionOperationProto proto) {
+        return ConditionOperationTypeAvro.valueOf(proto.name());
+    }
+
+    default DeviceActionTypeAvro map(ActionTypeProto proto) {
+        return DeviceActionTypeAvro.valueOf(proto.name());
+    }
+
+    default Instant mapToInstant(Timestamp timestamp) {
+        if (timestamp == null) {
+            return null;
+        }
+        return Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+    }
 }
