@@ -3,8 +3,8 @@ package ru.yandex.practicum.config;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,7 +15,6 @@ import ru.yandex.practicum.deserializer.DeserializerType;
 import java.util.Properties;
 
 @Component
-@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class KafkaConsumerFactory {
@@ -24,18 +23,17 @@ public class KafkaConsumerFactory {
 
     public <V extends SpecificRecordBase> KafkaConsumer<String, V> createConsumer(
             DeserializerType deserializerType,
-            Class<V> valueType) {
-        log.info("Бин фабрики успешно создан");
+            Class<V> valueType,
+            String clientId,
+            String groupId) {
 
         Properties properties = config.buildProperties();
+        properties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         Deserializer<V> deserializer = deserializeFactory.createDeserializer(deserializerType);
-        log.info("Загруженная конфигурация: " +
-                properties + "key_deserialize_class: StringDeserializer, value_deserialize_class:" +
-                deserializer.getClass().getName());
         KafkaConsumer<String, V> consumer = new KafkaConsumer<>(properties,
                 new StringDeserializer(),
                 deserializer);
-        log.info("Успешно создан kafka-consumer");
         return consumer;
     }
 }
