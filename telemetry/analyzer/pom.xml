@@ -69,13 +69,7 @@
             <artifactId>grpc-client-spring-boot-starter</artifactId>
             <version>3.1.0.RELEASE</version>
         </dependency>
-        <!--
-                <dependency>
-                    <groupId>net.devh</groupId>
-                    <artifactId>grpc-server-spring-boot-starter</artifactId>
-                    <version>3.1.0.RELEASE</version>
-                </dependency>
--->
+
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
@@ -88,7 +82,7 @@
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId> <!-- Вместо grpc-netty -->
+            <artifactId>grpc-netty-shaded</artifactId>
             <version>1.71.0</version>
         </dependency>
 

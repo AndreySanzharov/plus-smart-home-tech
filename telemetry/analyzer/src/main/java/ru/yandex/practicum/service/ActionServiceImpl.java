@@ -3,7 +3,6 @@ package ru.yandex.practicum.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.kafka.telemetry.event.DeviceActionAvro;
@@ -16,7 +15,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j
 public class ActionServiceImpl implements ActionService {
     ActionRepository actionRepository;
     ActionMapper actionMapper;
@@ -24,12 +22,10 @@ public class ActionServiceImpl implements ActionService {
     @Override
     @Transactional
     public List<Action> saveAll(List<DeviceActionAvro> actions) {
-        log.info("Добавление списка действий {}", actions);
         List<Action> savedActions = actionRepository.saveAll(
                 actions.stream()
                         .map(actionMapper::toAction)
                         .toList());
-        log.info("Действия успешно сохранены {}", savedActions);
         return savedActions;
     }
 }

@@ -21,7 +21,6 @@ public class SensorSnapshotUpdater {
 
         return Optional.ofNullable(event)
                 .map(e -> {
-                    // Получаем или создаем новый снимок для хаба
                     SensorsSnapshotAvro snapshot = snapshots.computeIfAbsent(
                             e.getHubId(),
                             hubId -> new SensorsSnapshotAvro(

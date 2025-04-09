@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j
 public class ConditionServiceImpl implements ConditionService {
     ConditionRepository conditionRepository;
     ConditionMapper conditionMapper;
@@ -25,12 +24,10 @@ public class ConditionServiceImpl implements ConditionService {
     @Override
     @Transactional
     public List<Condition> saveAll(List<ScenarioConditionAvro> conditions) {
-        log.info("Добавление списка условий {}", conditions);
         List<Condition> savedConditions = conditionRepository.saveAll(
                 conditions.stream()
                         .map(conditionMapper::toCondition)
                         .toList());
-        log.info("Условия успешно сохранены {}", savedConditions);
         return savedConditions;
     }
 }
