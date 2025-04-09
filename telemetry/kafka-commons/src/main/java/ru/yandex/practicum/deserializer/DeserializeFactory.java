@@ -4,7 +4,9 @@ import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.exception.NullValueException;
+import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +18,8 @@ public class DeserializeFactory {
 
     public DeserializeFactory() {
         this.registry.put(DeserializerType.SENSOR_EVENT_DESERIALIZER, SensorEventAvro.class);
+        this.registry.put(DeserializerType.HUB_EVENT_DESERIALIZER, HubEventAvro.class);
+        this.registry.put(DeserializerType.SENSOR_SNAPSHOT_DESERIALIZER, SensorsSnapshotAvro.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -24,7 +28,7 @@ public class DeserializeFactory {
         if (targetType == null) {
             throw new NullValueException("Неизвестный тип десериализатора " + type);
         }
-        // Безопасное приведение, так как мы контролируем типы в registry
+        // Безопасное приведение, контролируем типы в registry
         return (Deserializer<T>) new BaseAvroDeserializer<>(targetType);
     }
 }
