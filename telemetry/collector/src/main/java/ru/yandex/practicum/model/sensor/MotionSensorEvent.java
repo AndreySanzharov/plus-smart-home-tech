@@ -11,10 +11,10 @@ import ru.yandex.practicum.enums.SensorEventType;
 @Setter
 @ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
-public class MotionSensorEvent extends SensorEvent {
+//датчик движения
+public class MotionSensorEvent extends SensorEvent { //Событие датчика движения
     Integer linkQuality;
-    Boolean motion;
+    Boolean motion; //Наличие/отсутствие движения
     Integer voltage;
 
     @Override

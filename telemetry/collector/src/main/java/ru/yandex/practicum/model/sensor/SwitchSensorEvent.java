@@ -11,8 +11,9 @@ import ru.yandex.practicum.enums.SensorEventType;
 @Setter
 @ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SwitchSensorEvent extends SensorEvent {
-    Boolean state;
+//умный переключатель
+public class SwitchSensorEvent extends SensorEvent { //Событие датчика переключателя, содержащее информацию о текущем состоянии переключателя
+    Boolean state; //состояние переключателя. true - включен, false - выключен.
 
     @Override
     public SensorEventType getType() {
