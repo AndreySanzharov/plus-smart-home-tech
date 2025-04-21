@@ -9,15 +9,15 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
 @Configuration
-@ConfigurationProperties(prefix = "kafka.producer")
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
+//@ConfigurationProperties(prefix = "kafka.producer")
 @Getter
 @Setter
 @Slf4j
@@ -29,6 +29,9 @@ public class KafkaProducerFactory {
     @Bean
     public KafkaProducer<String, SpecificRecordBase> producer() {
         Properties properties = config.buildProperties();
+        if (properties == null) {
+            log.info("Настройки не загружены");
+        }
         log.info("Загруженная конфигурация {}: ", properties);
         pr = new KafkaProducer<>(properties);
         log.info("Создан kafka-producer {}", pr);

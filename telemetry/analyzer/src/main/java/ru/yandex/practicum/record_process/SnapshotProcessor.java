@@ -13,6 +13,7 @@ import ru.yandex.practicum.service.ScenarioService;
 
 import java.util.List;
 
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -23,17 +24,19 @@ public class SnapshotProcessor implements RecordProcessor<SensorsSnapshotAvro> {
 
     @Override
     public void process(SensorsSnapshotAvro snapshot) {
-        try {
-            String hubId = snapshot.getHubId();
-            List<Scenario> scenarios = scenarioService.getScenariosByHubId(hubId);
-            scenarios.stream()
-                    .filter(scenario -> isScenarioMatch(scenario, snapshot))
-                    .forEach(scenario -> sendAction(scenario, hubId));
-        } catch (ActionProcessingException e) {
-        }
+       try {
+           String hubId = snapshot.getHubId();
+           List<Scenario> scenarios = scenarioService.getScenariosByHubId(hubId);
+           scenarios.stream()
+                   .filter(scenario -> isScenarioMatch(scenario, snapshot))
+                   .forEach(scenario -> sendAction(scenario, hubId));
+       } catch (ActionProcessingException e) {
+           log.warn("отправка сообщения на hub не удалась {}", e.getMessage(), e.getCause());
+       }
     }
 
     private boolean isScenarioMatch(Scenario scenario, SensorsSnapshotAvro snapshot) {
+        log.info("Проверка сценария: {}", scenario.getName());
         return scenario.getScenarioConditions().stream()
                 .peek(cond -> log.info("Проверка условия для датчика: {}", cond.getSensor().getId()))
                 .anyMatch(scenarioCondition ->
@@ -46,9 +49,12 @@ public class SnapshotProcessor implements RecordProcessor<SensorsSnapshotAvro> {
 
     private boolean checkCondition(Condition condition, Sensor sensor, SensorsSnapshotAvro snapshot) {
         SensorStateAvro record = snapshot.getSensorsState().get(sensor.getId());
+        log.info("Проверка полученной записи {} ", record);
         if (record == null) {
+            log.warn("Данные для сенсора с id  {} отсутствуют", sensor.getId());
             return false;
         }
+        log.info("Обработка показаний датчика {}", record);
         try {
             Object sensorData = record.getData();
             return switch (condition.getType()) {
@@ -62,9 +68,7 @@ public class SnapshotProcessor implements RecordProcessor<SensorsSnapshotAvro> {
                         yield false;
                     }
                     yield evaluateCondition(temperature, condition.getOperationType(), condition.getValue());
-
                 }
-
                 case HUMIDITY -> sensorData instanceof ClimateSensorEventAvro tempData &&
                         evaluateCondition(
                                 tempData.getHumidity(),
@@ -97,6 +101,7 @@ public class SnapshotProcessor implements RecordProcessor<SensorsSnapshotAvro> {
                         );
             };
         } catch (ClassCastException e) {
+            log.error("Type mismatch for sensor {}: {}", sensor.getId(), e.getMessage());
             return false;
         }
     }
@@ -113,6 +118,7 @@ public class SnapshotProcessor implements RecordProcessor<SensorsSnapshotAvro> {
         scenario.getScenarioActions().forEach(scenarioAction -> {
             Action action = scenarioAction.getAction();
             hubActionSender.send(action, hubId);
+            log.info("Отправлено действие {} на хаб {}", action.getId(), hubId);
         });
     }
 }

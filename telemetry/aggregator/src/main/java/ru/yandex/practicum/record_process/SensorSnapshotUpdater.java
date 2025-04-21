@@ -1,5 +1,6 @@
 package ru.yandex.practicum.record_process;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecord;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
@@ -9,18 +10,19 @@ import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
 @Component
+@Slf4j
 public class SensorSnapshotUpdater {
     private final Map<String, SensorsSnapshotAvro> snapshots = new HashMap<>();
 
-    public Optional<SensorsSnapshotAvro> updateState(SensorEventAvro event) {
+       public Optional<SensorsSnapshotAvro> updateState(SensorEventAvro event) {
         if (event == null) {
             return Optional.empty();
         }
 
         return Optional.ofNullable(event)
                 .map(e -> {
+                    // Получаем или создаем новый снимок для хаба
                     SensorsSnapshotAvro snapshot = snapshots.computeIfAbsent(
                             e.getHubId(),
                             hubId -> new SensorsSnapshotAvro(
@@ -30,14 +32,21 @@ public class SensorSnapshotUpdater {
                             )
                     );
 
+                    // Проверяем, нужно ли обновлять состояние
                     SensorStateAvro oldState = snapshot.getSensorsState().get(e.getId());
 
+                    // Если состояние уже существует и либо его timestamp новее,
+                    // либо данные совпадают - не обновляем
                     if (oldState != null &&
                             (oldState.getTimestamp().isAfter(e.getTimestamp()) ||
-                                    dataEquals((SpecificRecord) oldState.getData(), (SpecificRecord) e.getEvent()))) {
+                                    dataEquals((SpecificRecord)oldState.getData(), (SpecificRecord)e.getEvent()))) {
+                        log.info("Событие проверено, существовало ранее, либо timestamp " +
+                                "существующего состояний новее либо данные не прошли проверку dataequals");
                         return null;
                     }
 
+                    // Обновляем состояние
+                    log.info("Обновляем состояние");
                     SensorStateAvro newState = new SensorStateAvro(e.getTimestamp(), e.getEvent());
                     snapshot.getSensorsState().put(e.getId(), newState);
                     snapshot.setTimestamp(e.getTimestamp());

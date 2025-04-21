@@ -13,27 +13,27 @@ import java.util.Optional;
 public interface ScenarioRepository extends JpaRepository<Scenario, Long> {
 
 
-    @EntityGraph(attributePaths = {
-            "scenarioConditions",
-            "scenarioConditions.condition",
-            "scenarioConditions.sensor",
-            "scenarioActions",
-            "scenarioActions.action",
-            "scenarioActions.sensor",
-            "scenarioActions.action.scenarioActions"
-    })
-    List<Scenario> findByHubId(String hubId);
+        @EntityGraph(attributePaths = {
+                "scenarioConditions",
+                "scenarioConditions.condition",
+                "scenarioConditions.sensor",
+                "scenarioActions",
+                "scenarioActions.action",
+                "scenarioActions.sensor",
+                "scenarioActions.action.scenarioActions"
+        })
+        List<Scenario> findByHubId(String hubId);
 
-    @EntityGraph(attributePaths = {
-            "scenarioConditions",
-            "scenarioConditions.condition",
-            "scenarioConditions.sensor",
-            "scenarioActions",
-            "scenarioActions.action",
-            "scenarioActions.sensor",
-            "scenarioActions.action.scenarioActions"
-    })
-    Optional<Scenario> findByHubIdAndName(
-            @Param("hubId") String hubId,
-            @Param("name") String name);
-}
+        @EntityGraph(attributePaths = {
+                "scenarioConditions",
+                "scenarioConditions.condition",
+                "scenarioConditions.sensor",
+                "scenarioActions",
+                "scenarioActions.action",
+                "scenarioActions.sensor",
+                "scenarioActions.action.scenarioActions"
+        })
+        Optional<Scenario> findByHubIdAndName(
+                @Param("hubId") String hubId,
+                @Param("name") String name);
+    }

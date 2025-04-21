@@ -19,7 +19,6 @@ import java.util.Properties;
 public class KafKaConsumerProperties {
     String bootstrapServer;
     Boolean enableAutoCommitConfig;
-    String keyDeserializeClass;
     String autoOffsetReset;
     Boolean enableAutoCommit;
     String sessionTimeout;
@@ -34,16 +33,16 @@ public class KafKaConsumerProperties {
     public Properties buildProperties() {
         Properties properties = new Properties();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
-        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit);
-        properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
-        properties.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, heartbeatInterval);
-        properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollInterval);
-        properties.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, fetchMaxWait);
-        properties.put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, fetchMinSize);
-        properties.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, fetchMaxBytes);
-        properties.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, maxPartitionFetchBytes);
-        properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset); // Что делать при отсутствии оффсета: "earliest", "latest", "none"
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit); // Автоматически коммитить оффсеты (true/false)
+        properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout); // Таймаут сессии (мс) - если consumer не отправляет heartbeat дольше этого времени, считается мертвым
+        properties.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, heartbeatInterval);// Как часто consumer отправляет heartbeat (мс)
+        properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollInterval); // Максимальное время между вызовами poll() (мс)
+        properties.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, fetchMaxWait); // Максимальное время ожидания данных при fetch (мс)
+        properties.put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, fetchMinSize); // Минимальное количество байт для возврата из fetch
+        properties.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, fetchMaxBytes); // Максимальное количество байт, возвращаемых за один fetch
+        properties.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, maxPartitionFetchBytes); // Максимальное количество байт, получаемых с одной партиции
+        properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);// Максимальное количество записей, возвращаемых за один poll()
         return properties;
     }
 }

@@ -24,7 +24,6 @@ public interface ConditionMapper {
     default ConditionOperationType map(ConditionOperationTypeAvro operation) {
         return ConditionOperationType.valueOf(operation.name());
     }
-
     @Named("mapValue")
     default Integer mapValue(Object value) {
         if (value instanceof Integer) {
