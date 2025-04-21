@@ -3,12 +3,14 @@ package ru.yandex.practicum.receiver;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
+@Slf4j
 @RequiredArgsConstructor
 public abstract class BaseAggregator<K, V> {
     protected final KafkaConsumerManager<K, V> consumerManager;
@@ -16,7 +18,6 @@ public abstract class BaseAggregator<K, V> {
     protected final AtomicBoolean processing = new AtomicBoolean(false);
 
     protected abstract List<String> getInputTopics();
-
     protected abstract Consumer<ConsumerRecords<K, V>> createBatchProcessor();
 
     @PostConstruct

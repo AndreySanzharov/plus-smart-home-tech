@@ -2,6 +2,7 @@ package ru.yandex.practicum.aggregator;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import ru.yandex.practicum.record_process.RecordsBatchProcessor;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SensorEventAggregator extends BaseAggregator<String, SensorEventAvro> {
@@ -28,8 +30,8 @@ public class SensorEventAggregator extends BaseAggregator<String, SensorEventAvr
                                  OffsetCommitManager<String, SensorEventAvro> offsetCommitManager,
                                  SnapshotHandler<SensorsSnapshotAvro> snapshotHandler) {
         super(consumerManager, offsetCommitManager);
-        this.recordProcessor = recordProcessor;
-        this.snapshotHandler = snapshotHandler;
+                this.recordProcessor = recordProcessor;
+                this.snapshotHandler = snapshotHandler;
     }
 
     @Value("${kafka.topics.sensor_events_topic}")

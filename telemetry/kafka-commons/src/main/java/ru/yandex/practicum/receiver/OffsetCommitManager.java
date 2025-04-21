@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @RequiredArgsConstructor
-public class OffsetCommitManager<K, V> {
+public class OffsetCommitManager <K,V>{
     @Value("${kafka.commit_manager.batch-size}")
     private int batchSize;
 

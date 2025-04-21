@@ -2,6 +2,7 @@ package ru.yandex.practicum.aggregator;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import ru.yandex.practicum.record_process.RecordProcessor;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SnapshotAggregator extends BaseAggregator<String, SensorsSnapshotAvro> {
