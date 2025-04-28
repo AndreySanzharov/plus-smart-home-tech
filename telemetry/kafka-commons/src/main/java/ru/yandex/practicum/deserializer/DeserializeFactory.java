@@ -1,5 +1,6 @@
 package ru.yandex.practicum.deserializer;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.stereotype.Component;

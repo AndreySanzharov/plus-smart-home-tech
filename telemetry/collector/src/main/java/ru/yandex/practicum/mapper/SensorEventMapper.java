@@ -4,8 +4,18 @@ import com.google.protobuf.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import ru.yandex.practicum.grpc.telemetry.event.*;
-import ru.yandex.practicum.kafka.telemetry.event.*;
+import ru.yandex.practicum.grpc.telemetry.event.ClimateSensorProto;
+import ru.yandex.practicum.grpc.telemetry.event.LightSensorProto;
+import ru.yandex.practicum.grpc.telemetry.event.MotionSensorProto;
+import ru.yandex.practicum.grpc.telemetry.event.SensorEventProto;
+import ru.yandex.practicum.grpc.telemetry.event.SwitchSensorProto;
+import ru.yandex.practicum.grpc.telemetry.event.TemperatureSensorProto;
+import ru.yandex.practicum.kafka.telemetry.event.ClimateSensorEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.LightSensorEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.MotionSensorEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.SwitchSensorEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.TemperatureSensorEventAvro;
 
 import java.time.Instant;
 
