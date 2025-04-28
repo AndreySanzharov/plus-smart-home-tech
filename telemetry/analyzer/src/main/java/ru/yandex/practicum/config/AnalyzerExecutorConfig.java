@@ -8,10 +8,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Configuration
+@Slf4j
 public class AnalyzerExecutorConfig {
     @Bean(name = "snapshotAnalyzer")
     public ExecutorService snapshotAnalyzerExecutor() {
         return Executors.newSingleThreadExecutor(r -> {
+                    log.info("Создание потока event-snapshot-consumer");
                     return new Thread(r, "snapshot - analyzer");
                 }
         );
@@ -20,6 +22,7 @@ public class AnalyzerExecutorConfig {
     @Bean(name = "hubEventAnalyzer")
     public ExecutorService hubEventAnalyzerExecutor() {
         return Executors.newSingleThreadExecutor(r -> {
+                    log.info("Создание потока hubEvent - analyzer");
                     return new Thread(r, "hubEvent - analyzer");
                 }
         );
