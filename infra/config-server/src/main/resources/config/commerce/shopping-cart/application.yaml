@@ -41,7 +41,7 @@ resilience4j:
         waitDurationInOpenState: 15s
         recordExceptions: # Какие исключения считать ошибками
         ignoreExceptions: # Какие исключения игнорировать
-         - ru.yandex.practicum.exception.WarehouseServiceException
+          - ru.yandex.practicum.exception.WarehouseServiceException
 
 logging:
   level:

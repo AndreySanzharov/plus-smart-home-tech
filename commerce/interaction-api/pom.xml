@@ -25,6 +25,6 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
- </dependencies>
+    </dependencies>
 
 </project>

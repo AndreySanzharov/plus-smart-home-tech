@@ -31,14 +31,14 @@ import java.util.UUID;
 public class ShoppingStoreController {
     final ShoppingStoreService productService;
 
-@GetMapping
-public ResponseEntity<Page<ProductDto>> getProducts(
-        @RequestParam ProductCategory category,
-        @Valid @ModelAttribute PageableDto pageableDto) {
-    return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(productService.getProductsByCategory(category, pageableDto));
-}
+    @GetMapping
+    public ResponseEntity<Page<ProductDto>> getProducts(
+            @RequestParam ProductCategory category,
+            @Valid @ModelAttribute PageableDto pageableDto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productService.getProductsByCategory(category, pageableDto));
+    }
 
     @PutMapping
     public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid ProductDto productDto) {
@@ -60,6 +60,7 @@ public ResponseEntity<Page<ProductDto>> getProducts(
                 .status(HttpStatus.OK)
                 .body(productService.removeProduct(uuid));
     }
+
     @PostMapping("/quantityState")
     public ResponseEntity<Boolean> updateProductQuantityState(@ModelAttribute UpdateQtyStateDto updateQtyStateDto) { //в тестах не тело а строка запроса, поставить значение по умолчанию
         return ResponseEntity

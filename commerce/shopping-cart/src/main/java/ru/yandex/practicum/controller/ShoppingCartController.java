@@ -38,7 +38,7 @@ public class ShoppingCartController {
     @PutMapping
     public ResponseEntity<ShoppingCartDto> addProducts(@RequestParam String username,
                                                        @RequestBody Map<UUID, Integer> products) {
-                return ResponseEntity
+        return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(shoppingCartService.addProducts(username, products));
     }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 
-@SpringBootApplication (scanBasePackages = "ru.yandex.practicum")
+@SpringBootApplication(scanBasePackages = "ru.yandex.practicum")
 public class CollectorApp {
     public static void main(String[] args) {
         SpringApplication.run(CollectorApp.class, args);

@@ -12,7 +12,7 @@ import ru.yandex.practicum.exception.WarehouseServiceException;
 
 @RestControllerAdvice
 @Slf4j
-public class ErrorHandler extends BaseErrorHandler{
+public class ErrorHandler extends BaseErrorHandler {
     @ExceptionHandler(NotAuthorizedUserException.class)
     public ResponseEntity<ErrorResponse> handleNotAuthorizedException(NotAuthorizedUserException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -26,6 +26,7 @@ public class ErrorHandler extends BaseErrorHandler{
                         ex
                 ));
     }
+
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCartNotFoundException(CartNotFoundException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -39,6 +40,7 @@ public class ErrorHandler extends BaseErrorHandler{
                         ex
                 ));
     }
+
     @ExceptionHandler(NoProductInShoppingCartException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundInCartException(NoProductInShoppingCartException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -52,6 +54,7 @@ public class ErrorHandler extends BaseErrorHandler{
                         ex
                 ));
     }
+
     @ExceptionHandler(WarehouseServiceException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundInCartException(WarehouseServiceException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;

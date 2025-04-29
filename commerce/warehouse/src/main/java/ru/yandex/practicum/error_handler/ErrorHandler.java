@@ -11,7 +11,7 @@ import ru.yandex.practicum.exception.WarehouseProductNotFoundException;
 
 @RestControllerAdvice
 @Slf4j
-public class ErrorHandler extends  BaseErrorHandler{
+public class ErrorHandler extends BaseErrorHandler {
     @ExceptionHandler(SpecifiedProductAlreadyInWarehouseException.class)
     public ResponseEntity<ErrorResponse> handleProductAlreadyInWarehouseException(SpecifiedProductAlreadyInWarehouseException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -25,6 +25,7 @@ public class ErrorHandler extends  BaseErrorHandler{
                         ex
                 ));
     }
+
     @ExceptionHandler(WarehouseProductNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundException(WarehouseProductNotFoundException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -39,8 +40,8 @@ public class ErrorHandler extends  BaseErrorHandler{
                 ));
     }
 
-    @ExceptionHandler( ProductInShoppingCartLowQuantityInWarehouse.class)
-    public ResponseEntity<ErrorResponse> handleProductLowQuantityException( ProductInShoppingCartLowQuantityInWarehouse ex) {
+    @ExceptionHandler(ProductInShoppingCartLowQuantityInWarehouse.class)
+    public ResponseEntity<ErrorResponse> handleProductLowQuantityException(ProductInShoppingCartLowQuantityInWarehouse ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String errorUserMessage = "Товара не хватает на складе";
         logging(errorUserMessage, ex);

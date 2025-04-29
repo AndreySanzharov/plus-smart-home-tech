@@ -18,10 +18,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PageableDto {
     @NotNull(message = "Номер страницы должен быть указан")
-    @Min(value= 0, message = "Минимальное значение page должно быть 0")
+    @Min(value = 0, message = "Минимальное значение page должно быть 0")
     int page;
     @NotNull(message = "Количество элементов на странице должен быть указан")
-    @Min(value= 1, message = "Минимальное значение page должно быть 0")
+    @Min(value = 1, message = "Минимальное значение page должно быть 0")
     int size;
     List<String> sort;
 }

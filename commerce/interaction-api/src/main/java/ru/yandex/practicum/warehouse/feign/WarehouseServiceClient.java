@@ -15,7 +15,7 @@ import ru.yandex.practicum.warehouse.dto.BookedProductsDto;
 import ru.yandex.practicum.warehouse.dto.WarehouseProductDto;
 
 @FeignClient(name = "warehouse",
-        path = "/api/v1/warehouse",fallback = WarehouseServiceFallback.class)
+        path = "/api/v1/warehouse", fallback = WarehouseServiceFallback.class)
 public interface WarehouseServiceClient {
     @PutMapping
     ResponseEntity<Void> addNewProduct(@RequestBody @Valid WarehouseProductDto newProduct);

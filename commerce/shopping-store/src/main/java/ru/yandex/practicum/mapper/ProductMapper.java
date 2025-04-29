@@ -10,7 +10,9 @@ import ru.yandex.practicum.store.dto.ProductDto;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     ProductDto toDto(Product product);
+
     Product toEntity(ProductDto productDto);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateProductFromDto(ProductDto productDto, @MappingTarget Product product);
 }

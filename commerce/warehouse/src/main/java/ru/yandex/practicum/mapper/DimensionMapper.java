@@ -7,4 +7,4 @@ import ru.yandex.practicum.warehouse.dto.DimensionDto;
 @Mapper(componentModel = "spring")
 public interface DimensionMapper {
     Dimension toEntity(DimensionDto dto);
-   }
+}

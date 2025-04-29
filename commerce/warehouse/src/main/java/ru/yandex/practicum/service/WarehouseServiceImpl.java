@@ -74,7 +74,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         log.info("Проверка товаров по количеству на складе");
         List<WarehouseItem> items = warehouseItemRepository.findAllByProduct_IdIn(requestedProducts.keySet());
-        if(items==null || items.size()!= existingIds.size()) {
+        if (items == null || items.size() != existingIds.size()) {
             throw new WarehouseProductNotFoundException("Продукты заведены на складе, но количество не задано, найденные WarehouseItem" + items);
         }
         //проверка соответствия количества
@@ -104,7 +104,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         WarehouseProduct product = warehouseProductRepository.findById(uuid)
                 .orElseThrow(() -> new WarehouseProductNotFoundException(
                         String.format("Товар с ID %s не найден на складе", productRequest.getProductId())));
-        log.info("Поиск item по uuid {} в warehouse или создание нового",uuid);
+        log.info("Поиск item по uuid {} в warehouse или создание нового", uuid);
         WarehouseItem item = warehouseItemRepository.findByProduct_Id(uuid)
                 .orElseGet(() -> WarehouseItem.builder()
                         .product(product)
@@ -124,7 +124,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     private BookedProductsDto getBookedProduct(Map<UUID, Integer> requestedProducts, List<WarehouseItem> items) {
 
-        log.info("Подсчет объема поставки для requestedProducts {} и найденных WarehouseItem {}",requestedProducts, items);
+        log.info("Подсчет объема поставки для requestedProducts {} и найденных WarehouseItem {}", requestedProducts, items);
         double deliveryWeight = items.stream()
                 .mapToDouble(item -> {
                     int requestedQty = requestedProducts.get(item.getProduct().getId());

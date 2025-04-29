@@ -63,32 +63,32 @@ public class KafkaConsumerManager<K, V> {
                 log.error("Ошибка Kafka в потоке {}", threadName, e);
 
 
-        } finally{
-            log.info("Поток {} завершает работу", threadName);
-            closeResources();
-        }
-    });
-}
+            } finally {
+                log.info("Поток {} завершает работу", threadName);
+                closeResources();
+            }
+        });
+    }
 
-public void shutdown() {
-    running = false;
-    executorService.shutdown();
-    try {
-        if (!executorService.awaitTermination(shutdownTimeout, TimeUnit.SECONDS)) {
+    public void shutdown() {
+        running = false;
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(shutdownTimeout, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
             executorService.shutdownNow();
+            Thread.currentThread().interrupt();
         }
-    } catch (InterruptedException e) {
-        executorService.shutdownNow();
-        Thread.currentThread().interrupt();
+        consumer.wakeup();
     }
-    consumer.wakeup();
-}
 
-private void closeResources() {
-    try {
-        consumer.close(Duration.ofSeconds(5));
-    } catch (KafkaException e) {
-        log.error("Ошибка при закрытии consumer", e);
+    private void closeResources() {
+        try {
+            consumer.close(Duration.ofSeconds(5));
+        } catch (KafkaException e) {
+            log.error("Ошибка при закрытии consumer", e);
+        }
     }
-}
 }

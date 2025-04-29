@@ -13,5 +13,6 @@ import java.util.UUID;
 @Repository
 public interface WarehouseItemRepository extends JpaRepository<WarehouseItem, Long> {
     List<WarehouseItem> findAllByProduct_IdIn(Set<UUID> productIds);
-    Optional<WarehouseItem>findByProduct_Id(UUID productId);
+
+    Optional<WarehouseItem> findByProduct_Id(UUID productId);
 }

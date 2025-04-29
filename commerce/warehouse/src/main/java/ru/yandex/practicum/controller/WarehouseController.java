@@ -33,12 +33,14 @@ public class WarehouseController {
                 .status(HttpStatus.OK)
                 .build();
     }
+
     @PostMapping("/check")
     public ResponseEntity<BookedProductsDto> checkShoppingCart(@RequestBody ShoppingCartDto cart) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(warehouseService.checkShoppingCart(cart));
     }
+
     @PostMapping("/add")
     public ResponseEntity<Void> addAndChangeQuantityProduct(@RequestBody @Valid AddProductToWarehouseRequest productRequest) {
         warehouseService.addAndChangeQuantityProduct(productRequest);
@@ -46,6 +48,7 @@ public class WarehouseController {
                 .status(HttpStatus.OK)
                 .build();
     }
+
     @GetMapping("/address")
     public ResponseEntity<AddressDto> getProductById() {
         return ResponseEntity

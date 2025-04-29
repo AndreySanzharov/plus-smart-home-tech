@@ -35,15 +35,15 @@ public class SnapshotProcessor implements RecordProcessor<SensorsSnapshotAvro> {
 
     @Override
     public void process(SensorsSnapshotAvro snapshot) {
-       try {
-           String hubId = snapshot.getHubId();
-           List<Scenario> scenarios = scenarioService.getScenariosByHubId(hubId);
-           scenarios.stream()
-                   .filter(scenario -> isScenarioMatch(scenario, snapshot))
-                   .forEach(scenario -> sendAction(scenario, hubId));
-       } catch (ActionProcessingException e) {
-           log.warn("отправка сообщения на hub не удалась {}", e.getMessage(), e.getCause());
-       }
+        try {
+            String hubId = snapshot.getHubId();
+            List<Scenario> scenarios = scenarioService.getScenariosByHubId(hubId);
+            scenarios.stream()
+                    .filter(scenario -> isScenarioMatch(scenario, snapshot))
+                    .forEach(scenario -> sendAction(scenario, hubId));
+        } catch (ActionProcessingException e) {
+            log.warn("отправка сообщения на hub не удалась {}", e.getMessage(), e.getCause());
+        }
     }
 
     private boolean isScenarioMatch(Scenario scenario, SensorsSnapshotAvro snapshot) {

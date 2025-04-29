@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 @RestControllerAdvice
 @Slf4j
 public class BaseErrorHandler {
@@ -41,9 +42,10 @@ public class BaseErrorHandler {
                         ex
                 ));
     }
+
     protected ErrorResponse createErrorResponse(HttpStatus status,
-                                              String message,
-                                              Throwable ex) {
+                                                String message,
+                                                Throwable ex) {
         return new ErrorResponse(
                 ex.getCause(),
                 getSafeStackTrace(ex),
@@ -65,6 +67,7 @@ public class BaseErrorHandler {
                 Arrays.asList(ex.getSuppressed()) :
                 null;
     }
+
     protected void logging(String message, Throwable ex) {
         log.error(message, ex.getMessage(), ex);
     }
