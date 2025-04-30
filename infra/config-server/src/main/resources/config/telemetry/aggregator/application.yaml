@@ -1,30 +1,3 @@
-grpc:
-  client:
-    hub-router:
-      address: 'static://localhost:59090'
-      enable-keep-alive: true
-      keep-alive-without-calls: true
-      negotiation-type: plaintext
-
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5435/analyzer-db
-    username: analyzer
-    password: analyzer
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 5 #Настройки пула соединений (HikariCP — дефолтный пул в Spring Boot).
-      connection-timeout: 30000
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true #Показывать SQL-запросы в логах
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-
 kafka:
   topics:
     sensor_events_topic: telemetry.sensors.v1
@@ -64,3 +37,14 @@ kafka:
     snapshot_consumer:
       client_id: analyzer.snapshot.consumer
       group_id: analyzer.snapshot.group.id
+
+
+logging:
+  level:
+    #root: DEBUG
+    io.grpc: DEBUG
+    org:
+      zalando:
+        logbook: DEBUG
+      springframework:
+        web: DEBUG

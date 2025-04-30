@@ -5,6 +5,8 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
+
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,6 +20,7 @@ public abstract class BaseAggregator<K, V> {
     protected final AtomicBoolean processing = new AtomicBoolean(false);
 
     protected abstract List<String> getInputTopics();
+
     protected abstract Consumer<ConsumerRecords<K, V>> createBatchProcessor();
 
     @PostConstruct

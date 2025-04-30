@@ -10,12 +10,13 @@ import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 @Component
 @Slf4j
 public class SensorSnapshotUpdater {
     private final Map<String, SensorsSnapshotAvro> snapshots = new HashMap<>();
 
-       public Optional<SensorsSnapshotAvro> updateState(SensorEventAvro event) {
+    public Optional<SensorsSnapshotAvro> updateState(SensorEventAvro event) {
         if (event == null) {
             return Optional.empty();
         }
@@ -39,7 +40,7 @@ public class SensorSnapshotUpdater {
                     // либо данные совпадают - не обновляем
                     if (oldState != null &&
                             (oldState.getTimestamp().isAfter(e.getTimestamp()) ||
-                                    dataEquals((SpecificRecord)oldState.getData(), (SpecificRecord)e.getEvent()))) {
+                                    dataEquals((SpecificRecord) oldState.getData(), (SpecificRecord) e.getEvent()))) {
                         log.info("Событие проверено, существовало ранее, либо timestamp " +
                                 "существующего состояний новее либо данные не прошли проверку dataequals");
                         return null;

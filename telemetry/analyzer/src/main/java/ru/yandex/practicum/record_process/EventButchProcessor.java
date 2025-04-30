@@ -28,7 +28,7 @@ public class EventButchProcessor<K, V> implements Consumer<ConsumerRecords<K, V>
                     var event = record.value();
                     recordProcessor.process(event);
                 } catch (SendMessageException e) {
-                    log.error("Ошибка обработки записи {}",  e.getMessage(), e);
+                    log.error("Ошибка обработки записи {}", e.getMessage(), e);
                 }
             }
         } finally {

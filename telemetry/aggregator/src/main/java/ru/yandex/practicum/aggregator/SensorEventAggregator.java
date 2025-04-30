@@ -30,8 +30,8 @@ public class SensorEventAggregator extends BaseAggregator<String, SensorEventAvr
                                  OffsetCommitManager<String, SensorEventAvro> offsetCommitManager,
                                  SnapshotHandler<SensorsSnapshotAvro> snapshotHandler) {
         super(consumerManager, offsetCommitManager);
-                this.recordProcessor = recordProcessor;
-                this.snapshotHandler = snapshotHandler;
+        this.recordProcessor = recordProcessor;
+        this.snapshotHandler = snapshotHandler;
     }
 
     @Value("${kafka.topics.sensor_events_topic}")

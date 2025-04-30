@@ -10,8 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.kafka.telemetry.event.DeviceActionAvro;
 import ru.yandex.practicum.kafka.telemetry.event.ScenarioAddedEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.ScenarioConditionAvro;
-import ru.yandex.practicum.model.*;
+import ru.yandex.practicum.model.Action;
+import ru.yandex.practicum.model.Condition;
+import ru.yandex.practicum.model.Scenario;
+import ru.yandex.practicum.model.ScenarioAction;
+import ru.yandex.practicum.model.ScenarioActionId;
+import ru.yandex.practicum.model.ScenarioCondition;
+import ru.yandex.practicum.model.ScenarioConditionId;
+import ru.yandex.practicum.model.Sensor;
 import ru.yandex.practicum.repository.ScenarioRepository;
+
 
 import java.util.List;
 import java.util.Map;
