@@ -7,20 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.exception.ActionProcessingException;
 import ru.yandex.practicum.hub_executor.HubActionSender;
-import ru.yandex.practicum.kafka.telemetry.event.ClimateSensorEventAvro;
-import ru.yandex.practicum.kafka.telemetry.event.LightSensorEventAvro;
-import ru.yandex.practicum.kafka.telemetry.event.MotionSensorEventAvro;
-import ru.yandex.practicum.kafka.telemetry.event.SensorStateAvro;
-import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
-import ru.yandex.practicum.kafka.telemetry.event.SwitchSensorEventAvro;
-import ru.yandex.practicum.kafka.telemetry.event.TemperatureSensorEventAvro;
-import ru.yandex.practicum.model.Action;
-import ru.yandex.practicum.model.Condition;
-import ru.yandex.practicum.model.ConditionOperationType;
-import ru.yandex.practicum.model.Scenario;
-import ru.yandex.practicum.model.Sensor;
+import ru.yandex.practicum.kafka.telemetry.event.*;
+import ru.yandex.practicum.model.*;
 import ru.yandex.practicum.service.ScenarioService;
-
 
 import java.util.List;
 
