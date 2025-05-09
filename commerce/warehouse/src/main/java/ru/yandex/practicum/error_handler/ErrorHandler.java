@@ -25,7 +25,6 @@ public class ErrorHandler extends BaseErrorHandler {
                         ex
                 ));
     }
-
     @ExceptionHandler(WarehouseProductNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundException(WarehouseProductNotFoundException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;

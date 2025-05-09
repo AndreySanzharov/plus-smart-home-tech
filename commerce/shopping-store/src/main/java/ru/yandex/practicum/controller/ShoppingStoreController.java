@@ -60,7 +60,6 @@ public class ShoppingStoreController {
                 .status(HttpStatus.OK)
                 .body(productService.removeProduct(uuid));
     }
-
     @PostMapping("/quantityState")
     public ResponseEntity<Boolean> updateProductQuantityState(@ModelAttribute UpdateQtyStateDto updateQtyStateDto) { //в тестах не тело а строка запроса, поставить значение по умолчанию
         return ResponseEntity

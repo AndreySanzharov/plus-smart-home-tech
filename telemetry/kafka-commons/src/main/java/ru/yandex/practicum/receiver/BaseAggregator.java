@@ -20,7 +20,6 @@ public abstract class BaseAggregator<K, V> {
     protected final AtomicBoolean processing = new AtomicBoolean(false);
 
     protected abstract List<String> getInputTopics();
-
     protected abstract Consumer<ConsumerRecords<K, V>> createBatchProcessor();
 
     @PostConstruct

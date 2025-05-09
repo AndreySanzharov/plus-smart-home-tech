@@ -26,7 +26,6 @@ public class ErrorHandler extends BaseErrorHandler {
                         ex
                 ));
     }
-
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCartNotFoundException(CartNotFoundException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -40,7 +39,6 @@ public class ErrorHandler extends BaseErrorHandler {
                         ex
                 ));
     }
-
     @ExceptionHandler(NoProductInShoppingCartException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundInCartException(NoProductInShoppingCartException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -54,7 +52,6 @@ public class ErrorHandler extends BaseErrorHandler {
                         ex
                 ));
     }
-
     @ExceptionHandler(WarehouseServiceException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundInCartException(WarehouseServiceException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;

@@ -1,3 +1,4 @@
+
 kafka:
   topics:
     sensor_events_topic: telemetry.sensors.v1

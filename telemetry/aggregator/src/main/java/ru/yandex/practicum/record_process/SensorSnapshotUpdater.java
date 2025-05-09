@@ -10,7 +10,6 @@ import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
 @Component
 @Slf4j
 public class SensorSnapshotUpdater {
