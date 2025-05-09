@@ -1,13 +1,13 @@
 package ru.yandex.practicum.service;
 
 import org.springframework.data.domain.Page;
+import ru.yandex.practicum.store.dto.PageableDto;
 import ru.yandex.practicum.store.dto.ProductDto;
 import ru.yandex.practicum.store.dto.UpdateQtyStateDto;
 import ru.yandex.practicum.store.enums.ProductCategory;
-import ru.yandex.practicum.store.dto.PageableDto;
-import ru.yandex.practicum.store.enums.QuantityState;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface ShoppingStoreService {
@@ -17,4 +17,6 @@ public interface ShoppingStoreService {
     Boolean removeProduct(UUID uuid);
     Boolean updateQuantityState(UpdateQtyStateDto updateQtyStateDto);
     ProductDto getProductDtoById(UUID uuid);
+
+    List<ProductDto> getProductsDtoByIds(Set<UUID> productIds);
 }
