@@ -66,7 +66,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         try {
             warehouseServiceClient.checkShoppingCart(cartMapper.toDto(cart));
-        } catch (FeignException.FeignClientException.BadRequest ex) {
+        } catch (FeignClientException.BadRequest ex) {
             log.error("Сработал блок catch в FeignException");
             throw new WarehouseServiceException("Ошибка при проверке корзины на складе ");
         }
