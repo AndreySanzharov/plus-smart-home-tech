@@ -1,12 +1,11 @@
 package ru.yandex.practicum.hub_executor;
 
+import com.google.protobuf.Timestamp;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.grpc.telemetry.event.ActionTypeProto;
 import ru.yandex.practicum.grpc.telemetry.event.DeviceActionProto;
 import ru.yandex.practicum.grpc.telemetry.event.DeviceActionRequest;
 import ru.yandex.practicum.model.Action;
-
-import com.google.protobuf.Timestamp;
 import ru.yandex.practicum.model.ScenarioAction;
 
 import java.time.Instant;

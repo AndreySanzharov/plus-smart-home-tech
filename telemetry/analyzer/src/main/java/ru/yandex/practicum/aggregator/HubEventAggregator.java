@@ -13,7 +13,6 @@ import ru.yandex.practicum.receiver.OffsetCommitManager;
 import ru.yandex.practicum.record_process.EventButchProcessor;
 import ru.yandex.practicum.record_process.RecordProcessor;
 
-
 import java.util.List;
 
 @Slf4j

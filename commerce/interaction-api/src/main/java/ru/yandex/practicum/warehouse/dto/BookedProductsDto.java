@@ -1,10 +1,6 @@
 package ru.yandex.practicum.warehouse.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
@@ -15,5 +11,5 @@ import lombok.experimental.FieldDefaults;
 public class BookedProductsDto {
     double deliveryWeight;
     double deliveryVolume;
-    boolean isFragile;
+    boolean fragile;
 }

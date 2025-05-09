@@ -1,6 +1,5 @@
 package ru.yandex.practicum.warehouse.feign;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

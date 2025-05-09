@@ -7,7 +7,6 @@ import org.apache.avro.io.DatumWriter;
 import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecordBase;
-
 import org.apache.kafka.common.serialization.Serializer;
 import ru.yandex.practicum.exception.NullValueException;
 import ru.yandex.practicum.exception.SerializationException;

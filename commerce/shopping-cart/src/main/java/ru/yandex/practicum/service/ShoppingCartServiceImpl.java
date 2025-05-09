@@ -25,13 +25,9 @@ import ru.yandex.practicum.repository.ShoppingCartRepository;
 import ru.yandex.practicum.warehouse.dto.BookedProductsDto;
 import ru.yandex.practicum.warehouse.feign.WarehouseServiceClient;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+
 ;
 
 @Service
@@ -66,7 +62,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         try {
             warehouseServiceClient.checkShoppingCart(cartMapper.toDto(cart));
-        } catch (FeignException.FeignClientException.BadRequest ex) {
+        } catch (FeignClientException.BadRequest ex) {
             log.error("Сработал блок catch в FeignException");
             throw new WarehouseServiceException("Ошибка при проверке корзины на складе ");
         }

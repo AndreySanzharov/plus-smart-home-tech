@@ -5,8 +5,6 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
-
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;

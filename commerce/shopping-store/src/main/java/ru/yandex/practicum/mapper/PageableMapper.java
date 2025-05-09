@@ -1,12 +1,10 @@
 package ru.yandex.practicum.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import ru.yandex.practicum.store.dto.PageableDto;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
