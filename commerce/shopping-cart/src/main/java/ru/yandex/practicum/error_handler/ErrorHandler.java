@@ -7,25 +7,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.exception.CartNotFoundException;
 import ru.yandex.practicum.exception.NoProductInShoppingCartException;
-import ru.yandex.practicum.exception.NotAuthorizedUserException;
 import ru.yandex.practicum.exception.WarehouseServiceException;
 
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler extends BaseErrorHandler {
-    @ExceptionHandler(NotAuthorizedUserException.class)
-    public ResponseEntity<ErrorResponse> handleNotAuthorizedException(NotAuthorizedUserException ex) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        String errorUserMessage = "Пользователь не авторизован, поле имя некорректно";
-        logging(errorUserMessage, ex);
-        return ResponseEntity
-                .status(status)
-                .body(createErrorResponse(
-                        status,
-                        errorUserMessage,
-                        ex
-                ));
-    }
+
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCartNotFoundException(CartNotFoundException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;

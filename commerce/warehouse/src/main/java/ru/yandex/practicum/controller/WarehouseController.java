@@ -6,18 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.cart.dto.ShoppingCartDto;
+import ru.yandex.practicum.general_dto.AddressDto;
 import ru.yandex.practicum.service.WarehouseService;
-import ru.yandex.practicum.warehouse.dto.AddProductToWarehouseRequest;
-import ru.yandex.practicum.warehouse.dto.AddressDto;
-import ru.yandex.practicum.warehouse.dto.BookedProductsDto;
-import ru.yandex.practicum.warehouse.dto.WarehouseProductDto;
+import ru.yandex.practicum.warehouse.dto.*;
+
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/warehouse")
@@ -47,9 +43,32 @@ public class WarehouseController {
                 .build();
     }
     @GetMapping("/address")
-    public ResponseEntity<AddressDto> getProductById() {
+    public ResponseEntity<AddressDto> getAddress() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(warehouseService.getAddress());
+    }
+
+    @PostMapping("/assembly")
+    public ResponseEntity<BookedProductsDto> prepareOrderItemsForShipment(@RequestBody @Valid AssemblyProductsForOrderRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(warehouseService.prepareOrderItemsForShipment(request));
+    }
+
+    @PostMapping("/return")
+    public ResponseEntity<Void> returnProductToWarehouse(@RequestBody Map<UUID, Integer> products) {
+        warehouseService.returnProductToWarehouse(products);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @PostMapping("/shipped")
+    public ResponseEntity<Void> sendProductsToDelivery(@RequestBody @Valid ShippedToDeliveryRequest request) {
+        warehouseService.sendProductsToDelivery(request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }

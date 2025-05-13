@@ -13,13 +13,14 @@ import ru.yandex.practicum.mapper.PageableMapper;
 import ru.yandex.practicum.mapper.ProductMapper;
 import ru.yandex.practicum.model.Product;
 import ru.yandex.practicum.repository.ProductRepository;
+import ru.yandex.practicum.store.dto.PageableDto;
 import ru.yandex.practicum.store.dto.ProductDto;
 import ru.yandex.practicum.store.dto.UpdateQtyStateDto;
 import ru.yandex.practicum.store.enums.ProductCategory;
-import ru.yandex.practicum.store.dto.PageableDto;
 import ru.yandex.practicum.store.enums.ProductState;
 
-
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -91,5 +92,12 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
         return productRepository.findById(uuid)
                 .orElseThrow(() -> new ProductNotFoundException("Продукт не найден id " + uuid));
     }
+
+    @Override
+    public List<ProductDto> getProductsDtoByIds(Set<UUID> productIds) {
+        List<Product> products = productRepository.findAllById(productIds);
+        return productMapper.toDtoList(products);
+    }
 }
+
 

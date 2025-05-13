@@ -7,21 +7,15 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.ShoppingStoreService;
+import ru.yandex.practicum.store.dto.PageableDto;
 import ru.yandex.practicum.store.dto.ProductDto;
 import ru.yandex.practicum.store.dto.UpdateQtyStateDto;
 import ru.yandex.practicum.store.enums.ProductCategory;
-import ru.yandex.practicum.store.dto.PageableDto;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -73,5 +67,12 @@ public class ShoppingStoreController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productService.getProductDtoById(productId));
+    }
+
+    @PostMapping("/products/by-ids")
+    public ResponseEntity<List<ProductDto>> getProductsByIds(@RequestBody Set<UUID> productIds) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productService.getProductsDtoByIds(productIds));
     }
 }
